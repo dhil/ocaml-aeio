@@ -10,7 +10,7 @@
 
 (** {1 Aeio} *)
 
-type file_descr 
+type file_descr
 (** The type of file descriptors. *)
 
 val get_unix_fd : file_descr -> Unix.file_descr
@@ -31,7 +31,7 @@ val set_nonblock : file_descr -> unit
 type 'a promise
 (** The type of promise. *)
 
-type context 
+type context
 (** The type of cancellation context. *)
 
 exception Cancelled
@@ -41,7 +41,7 @@ exception Cancelled
 exception Promise_cancelled
 (** Raised at {!await} if the promise was cancelled. *)
 
-val new_context : unit -> context 
+val new_context : unit -> context
 (** Creates a new cancellation context. *)
 
 val my_context : unit -> context
@@ -55,9 +55,9 @@ val async : ?ctxt:context-> ('a -> 'b) -> 'a -> 'b promise
     context was provided, then the new fiber shares the cancelallation context
     of the caller. *)
 
-val await : 'a promise -> 'a 
+val await : 'a promise -> 'a
 (** Block until the result of a promise is available. Raises exception [e] if
-    the promise raises [e]. 
+    the promise raises [e].
     @raise Promise_cancelled if the promise was cancelled. *)
 
 val yield : unit -> unit
