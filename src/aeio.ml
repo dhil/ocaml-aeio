@@ -80,10 +80,31 @@ effect Yield   : unit
 effect Get_tid : int
 
 effect Accept : file_descr -> (file_descr * Unix.sockaddr)
+with function
+  | Accept ch ->
+     let fd, sa = Unix.accept ch.fd in
+     mk_chan fd, sa
+
 effect Recv   : file_descr * bytes * int * int * Unix.msg_flag list -> int
+with function
+  | Recv (ch, buf, pos, len, mode) ->
+     Unix.recv ch.fd buf pos len mode
+
 effect Send   : file_descr * bytes * int * int * Unix.msg_flag list -> int
+with function
+  | Send (ch, buf, pos, len, mode) ->
+     Unix.send ch.fd buf pos len mode
+
 effect Read   : file_descr * bytes * int * int -> int
+with function
+  | Read (ch, buf, pos, len) ->
+     stub_read ch.fd buf pos len
+
 effect Write  : file_descr * bytes * int * int -> int
+with function
+  | Write (ch, buf, pos, len) ->
+     stub_write ch.fd buf pos len
+
 effect Sleep  : float -> unit
 
 effect Get_context    : context
